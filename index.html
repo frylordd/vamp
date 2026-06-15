@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sex & Horror: Re-Vamped</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="background-glow"></div>
+
+  <main class="container">
+
+    <div class="small-title">
+      SEX & HORROR
+    </div>
+
+    <h1 class="main-title">
+      RE-VAMPED
+    </h1>
+
+    <div class="event-info">
+      <p>21+</p>
+      <p>JULY 18 • 9PM–2AM</p>
+      <p>TWENTIES</p>
+      <p>2733 WOODBURN AVE</p>
+      <p>DOWNSTAIRS</p>
+    </div>
+
+    <div id="countdown">
+      Loading...
+    </div>
+
+    <div class="sounds-section">
+
+      <div class="sounds-by">
+        SOUNDS BY
+      </div>
+
+      <div class="dj-list">
+        <p class="headliner">GRAEY</p>
+        <p class="support-one">FRYLORDD</p>
+        <p class="support-two">TWKRBTCH</p>
+        <p class="support-three">DJWOAHDY</p>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      VAMPIRES • WITCHES • SUCCUBI • WEREWOLVES
+    </div>
+
+  </main>
+
+<script>
+const showDate = new Date("July 18, 2026 21:00:00").getTime();
+
+const countdown = setInterval(function() {
+
+  const now = new Date().getTime();
+  const distance = showDate - now;
+
+  if (distance <= 0) {
+    clearInterval(countdown);
+    document.getElementById("countdown").innerHTML =
+      "THE CURSE HAS BEGUN";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+  const hours = Math.floor(
+    (distance % (1000 * 60 * 60 * 24))
+    / (1000 * 60 * 60)
+  );
+
+  const minutes = Math.floor(
+    (distance % (1000 * 60 * 60))
+    / (1000 * 60)
+  );
+
+  const seconds = Math.floor(
+    (distance % (1000 * 60))
+    / 1000
+  );
+
+  document.getElementById("countdown").innerHTML =
+    `${days}D : ${hours}H : ${minutes}M : ${seconds}S`;
+
+}, 1000);
+</script>
+
+</body>
+</html>

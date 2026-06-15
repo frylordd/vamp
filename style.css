@@ -1,0 +1,239 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#000;
+  color:white;
+  font-family:'Cinzel', serif;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px 20px;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* Background */
+
+.background-glow{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+
+  background:
+    radial-gradient(circle at 20% 20%, rgba(139,0,0,.35), transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(139,0,0,.25), transparent 35%),
+    linear-gradient(to bottom, #000000, #050000, #000000);
+
+  animation:ambientGlow 8s ease-in-out infinite;
+}
+
+@keyframes ambientGlow{
+  0%,100%{
+    opacity:.8;
+  }
+  50%{
+    opacity:1;
+  }
+}
+
+/* Layout */
+
+.container{
+  text-align:center;
+  width:100%;
+  max-width:1200px;
+}
+
+/* Small Header */
+
+.small-title{
+  font-size:clamp(1rem, 2vw, 2rem);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:10px;
+  margin-bottom:10px;
+
+  color:#ffffff;
+
+  text-shadow:
+    0 0 10px rgba(255,255,255,.6),
+    0 0 20px rgba(193,18,31,.8);
+}
+
+/* Main Title */
+
+.main-title{
+  font-size:clamp(4rem, 12vw, 10rem);
+  line-height:.85;
+  text-transform:uppercase;
+  letter-spacing:4px;
+  font-weight:900;
+
+  color:#8b0000;
+
+  margin-bottom:25px;
+
+  text-shadow:
+    0 0 10px #ff0000,
+    0 0 30px #8b0000,
+    0 0 60px #400000;
+}
+
+/* Event Info */
+
+.event-info{
+  margin-bottom:45px;
+}
+
+.event-info p{
+  font-size:clamp(.8rem, 2vw, 1.15rem);
+  text-transform:uppercase;
+  letter-spacing:4px;
+  line-height:1.8;
+
+  color:#f2f2f2;
+
+  text-shadow:
+    0 0 10px rgba(193,18,31,.8);
+}
+
+/* Countdown */
+
+#countdown{
+  display:inline-block;
+
+  padding:30px 45px;
+
+  border:2px solid #c1121f;
+  border-radius:12px;
+
+  background:rgba(0,0,0,.85);
+
+  font-size:clamp(1.8rem, 5vw, 4rem);
+  font-weight:900;
+
+  letter-spacing:6px;
+
+  color:#fff;
+
+  text-shadow:
+    0 0 10px #fff,
+    0 0 20px #c1121f;
+
+  box-shadow:
+    0 0 15px rgba(193,18,31,.7),
+    0 0 35px rgba(193,18,31,.4),
+    inset 0 0 15px rgba(193,18,31,.2);
+
+  animation:pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%,100%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.03);
+  }
+}
+
+/* Sounds By */
+
+.sounds-section{
+  margin-top:55px;
+}
+
+.sounds-by{
+  font-size:.85rem;
+  color:#999;
+  letter-spacing:8px;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+
+/* DJ Lineup */
+
+.dj-list{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.headliner{
+  font-size:clamp(2.5rem, 6vw, 4rem);
+  font-weight:900;
+  letter-spacing:10px;
+  margin-bottom:10px;
+
+  color:#ffffff;
+
+  text-shadow:
+    0 0 10px #fff,
+    0 0 25px #c1121f,
+    0 0 50px #7a0000;
+}
+
+.support-one{
+  font-size:clamp(1.5rem, 3vw, 2.2rem);
+  letter-spacing:6px;
+  margin-bottom:8px;
+  color:#f2f2f2;
+}
+
+.support-two{
+  font-size:clamp(1.2rem, 2.5vw, 1.7rem);
+  letter-spacing:5px;
+  margin-bottom:8px;
+  color:#d4d4d4;
+}
+
+.support-three{
+  font-size:clamp(1rem, 2vw, 1.3rem);
+  letter-spacing:4px;
+  color:#b3b3b3;
+}
+
+/* Footer */
+
+.footer{
+  margin-top:45px;
+
+  font-size:.85rem;
+  text-transform:uppercase;
+  letter-spacing:5px;
+
+  color:#8b0000;
+
+  text-shadow:
+    0 0 10px rgba(255,0,0,.8);
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+  .small-title{
+    letter-spacing:6px;
+  }
+
+  .event-info p{
+    letter-spacing:2px;
+  }
+
+  #countdown{
+    width:100%;
+    padding:25px 15px;
+    letter-spacing:2px;
+  }
+
+  .footer{
+    letter-spacing:2px;
+  }
+
+}
