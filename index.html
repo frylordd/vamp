@@ -1,47 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Sex & Horror: Re-Vamped</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
 
   <div class="background-glow"></div>
 
   <main class="container">
 
-    <div class="small-title">
-      SEX & HORROR
-    </div>
+    <p class="small-title">SEX & HORROR</p>
 
-    <h1 class="main-title">
-      RE-VAMPED
-    </h1>
+    <h1 class="main-title">RE-VAMPED</h1>
 
-    <div class="event-info">
+    <section class="event-info">
       <p>21+</p>
       <p>JULY 18 • 9PM–2AM</p>
       <p>TWENTIES</p>
       <p>2733 WOODBURN AVE</p>
       <p>DOWNSTAIRS</p>
-    </div>
+    </section>
 
-    <div id="countdown">
-      Loading...
-    </div>
+    <div id="countdown">Loading...</div>
 
-    <div class="sounds-section">
+    <section class="rsvp-section">
+      <button id="join-btn" class="join-btn">
+        JOIN THE VAMP&bull;KULT
+      </button>
 
-      <div class="sounds-by">
-        SOUNDS BY
-      </div>
+      <p class="soul-counter">
+        🩸 <span id="soul-count">0</span> SOULS HAVE JOINED THE KULT 🩸
+      </p>
+    </section>
+
+    <section class="sounds-section">
+      <p class="sounds-by">SOUNDS BY</p>
 
       <div class="dj-list">
         <p class="headliner">GRAEY</p>
@@ -49,52 +54,104 @@
         <p class="support-two">TWKRBTCH</p>
         <p class="support-three">DJWOAHDY</p>
       </div>
+    </section>
 
-    </div>
-
-    <div class="footer">
+    <p class="footer">
       VAMPIRES • WITCHES • SUCCUBI • WEREWOLVES
-    </div>
+    </p>
 
   </main>
 
-<script>
-const showDate = new Date("July 18, 2026 21:00:00").getTime();
+  <script>
+    const showDate = new Date("July 18, 2026 21:00:00").getTime();
 
-const countdown = setInterval(function() {
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = showDate - now;
 
-  const now = new Date().getTime();
-  const distance = showDate - now;
+      if (distance <= 0) {
+        document.getElementById("countdown").innerHTML = "THE CURSE HAS BEGUN";
+        return;
+      }
 
-  if (distance <= 0) {
-    clearInterval(countdown);
-    document.getElementById("countdown").innerHTML =
-      "THE CURSE HAS BEGUN";
-    return;
-  }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      document.getElementById("countdown").innerHTML =
+        `${days}D : ${hours}H : ${minutes}M : ${seconds}S`;
+    }, 1000);
 
-  const hours = Math.floor(
-    (distance % (1000 * 60 * 60 * 24))
-    / (1000 * 60 * 60)
-  );
 
-  const minutes = Math.floor(
-    (distance % (1000 * 60 * 60))
-    / (1000 * 60)
-  );
+    // SUPABASE INFO GOES HERE
+    const SUPABASE_URL = "https://zdqdcebciflqgvtbmboi.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_BMqdSi0SvxR4cZ6jPLIMJg_mueHRWVa";
 
-  const seconds = Math.floor(
-    (distance % (1000 * 60))
-    / 1000
-  );
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  document.getElementById("countdown").innerHTML =
-    `${days}D : ${hours}H : ${minutes}M : ${seconds}S`;
+    const joinBtn = document.getElementById("join-btn");
+    const soulCount = document.getElementById("soul-count");
 
-}, 1000);
-</script>
+    async function loadSouls() {
+      const { data, error } = await client
+        .from("vampkult")
+        .select("souls")
+        .eq("id", 1)
+        .single();
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      soulCount.textContent = data.souls;
+    }
+
+    async function joinVampKult() {
+      if (localStorage.getItem("joinedVampKult")) {
+        return;
+      }
+
+      const { data, error } = await client
+        .from("vampkult")
+        .select("souls")
+        .eq("id", 1)
+        .single();
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      const newCount = data.souls + 1;
+
+      const { error: updateError } = await client
+        .from("vampkult")
+        .update({ souls: newCount })
+        .eq("id", 1);
+
+      if (updateError) {
+        console.log(updateError);
+        return;
+      }
+
+      soulCount.textContent = newCount;
+      localStorage.setItem("joinedVampKult", "true");
+
+      joinBtn.innerHTML = "WELCOME TO THE VAMP&bull;KULT";
+      joinBtn.disabled = true;
+    }
+
+    joinBtn.addEventListener("click", joinVampKult);
+
+    if (localStorage.getItem("joinedVampKult")) {
+      joinBtn.innerHTML = "WELCOME TO THE VAMP&bull;KULT";
+      joinBtn.disabled = true;
+    }
+
+    loadSouls();
+  </script>
 
 </body>
 </html>
