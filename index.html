@@ -16,11 +16,9 @@
 </head>
 
 <body>
-
   <div class="background-glow"></div>
 
   <main class="container">
-
     <p class="small-title">SEX & HORROR</p>
 
     <h1 class="main-title">RE-VAMPED</h1>
@@ -59,7 +57,6 @@
     <p class="footer">
       VAMPIRES • WITCHES • SUCCUBI • WEREWOLVES
     </p>
-
   </main>
 
   <script>
@@ -83,12 +80,10 @@
         `${days}D : ${hours}H : ${minutes}M : ${seconds}S`;
     }, 1000);
 
-
-    // SUPABASE INFO GOES HERE
     const SUPABASE_URL = "https://zdqdcebciflqgvtbmboi.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_BMqdSi0SvxR4cZ6jPLIMJg_mueHRWVa";
 
-    const client = supabase.createClient(https://zdqdcebciflqgvtbmboi.supabase.co, sb_publishable_BMqdSi0SvxR4cZ6jPLIMJg_mueHRWVa);
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const joinBtn = document.getElementById("join-btn");
     const soulCount = document.getElementById("soul-count");
@@ -101,7 +96,8 @@
         .single();
 
       if (error) {
-        console.log(error);
+        console.error("Load error:", error);
+        soulCount.textContent = "ERROR";
         return;
       }
 
@@ -110,8 +106,13 @@
 
     async function joinVampKult() {
       if (localStorage.getItem("joinedVampKult")) {
+        joinBtn.innerHTML = "WELCOME TO THE VAMP&bull;KULT";
+        joinBtn.disabled = true;
         return;
       }
+
+      joinBtn.disabled = true;
+      joinBtn.innerHTML = "JOINING...";
 
       const { data, error } = await client
         .from("vampkult")
@@ -120,11 +121,13 @@
         .single();
 
       if (error) {
-        console.log(error);
+        console.error("Read error:", error);
+        joinBtn.disabled = false;
+        joinBtn.innerHTML = "JOIN THE VAMP&bull;KULT";
         return;
       }
 
-      const newCount = data.souls + 1;
+      const newCount = Number(data.souls) + 1;
 
       const { error: updateError } = await client
         .from("vampkult")
@@ -132,7 +135,9 @@
         .eq("id", 1);
 
       if (updateError) {
-        console.log(updateError);
+        console.error("Update error:", updateError);
+        joinBtn.disabled = false;
+        joinBtn.innerHTML = "JOIN THE VAMP&bull;KULT";
         return;
       }
 
@@ -152,6 +157,5 @@
 
     loadSouls();
   </script>
-
 </body>
 </html>
